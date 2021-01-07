@@ -5,13 +5,13 @@
 #ifndef CUBE_CUBE_H
 #define CUBE_CUBE_H
 
-#include "Block.h"
+#include "block.h"
 
 //enum Direction{_x,_y,_z};
 
 class Cube
 {
-    RotationBlock *cube[3][3][3];
+    Block *cube[3][3][3];
 
 public:
     Cube()=default;

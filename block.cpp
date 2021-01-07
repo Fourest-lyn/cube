@@ -2,7 +2,7 @@
 // Created by Fourest on 2020/12/31.
 //
 
-#include "Block.h"
+#include "block.h"
 
 //Corner blocks.
 /*
@@ -71,3 +71,27 @@ bool Middle::check()
 }
 
 */
+
+Matrix::Matrix(Direction,int)
+{
+    //todo:
+}
+
+Block operator*(const Matrix &,const Block &)
+{
+    //todo:
+    return Block();
+}
+
+Block operator*(const Block &,const Matrix &)
+{
+    //todo:
+    return Block();
+}
+
+
+Paper operator*(const Paper &,const Matrix &)
+{
+    //todo:
+    return Paper(BaseType());
+}

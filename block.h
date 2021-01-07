@@ -11,33 +11,53 @@
 #define CUBE_BLOCK_H
 
 #include <unordered_set>
-#include<cassert>
+#include <cassert>
+#include <map>
+#include "error.h"
+
+//Fourest: Declare classes here.
+class Matrix;
+class BaseType;
+class Paper;
+class Block;
+
+
 
 class BaseType
 {
-friend Matrix;
-public:
-    BaseType(int x=0,int y=0,int z=0):x(x),y(y),z(z){}
+    friend Matrix;
+
 private:
     int x,y,z;
+
+public:
+    BaseType(int x=0,int y=0,int z=0):x(x),y(y),z(z){}
+
 };
 
-//only has 6 different possible value
+
+//only has 6 different possible value:
+//(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1)
 typedef BaseType Direction;
 
-//only has 7 different possible value, include no colour
+//only has 7 different possible value, include no colour:
+//(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1) (0,0,0)
 typedef BaseType Colour;
+
 
 //Fourest: This class is used for define a rotation matrix.
 class Matrix
 {
-public:
-    Matrix(Direction,int);
+
 private:
     int a[3][3];
-//    Direction direction;
-    int UpDown;//-1,0,1 Question: when should "UpDown" be used? It decides whether to rotate a block.
+    int Layer;//-1,0,1 Question: when should "Layer" be used? It decides whether to rotate a block.
+
+public:
+    Matrix(Direction,int);
+
 };
+
 /*
 class BaseBlock
 {
@@ -65,37 +85,38 @@ private:
     orange = 0, white = 1, blue = 2, green = 3, yellow = 4, red = 5
 };*/
 
-//Errors:
-class WrongPlace{};
-
-class WrongColour{};
-
-class WrongKind{};
 
 //This class is defined to describe a coloured Paper.
 class Paper
 {
+    friend Block;
+    friend Paper operator*(const Paper &,const Matrix &);
+
 private:
-    Colour col;
-    Direction direction;
+    const Colour col;
+    Direction dir;
+
+public:
+    Paper(Direction _dir,Colour _col=Colour(0,0,0)):dir(_dir),col(_col){}
+    Colour colour(){return col;}
+    Direction direction(){return dir;}
 };
 
+
 //This class is defined to describe a real block that has 6 paper and can translate and rotate.
-class RotationBlock
+class Block
 {
-public:
-    friend RotationBlock operator*(const Matrix &matrix,const RotationBlock &rotationBlock)
-    {
+    friend Block operator*(const Matrix &,const Block &);
+    friend Block operator*(const Block &,const Matrix &);
 
-    };
-
-    friend RotationBlock operator*(const RotationBlock &rotationBlock,const Matrix &matrix)
-    {
-        return matrix*rotationBlock;
-    };
 private:
-    BaseBlock block;
-    Paper paper0,paper1,paper2,paper3,paper4,paper5;//FIXME This isn't a good idea.It can't represent these papers' quality.
+    BaseType position;
+    std::map<Direction,Paper> papers;
+
+public:
+    Block(BaseType _pos){}//todo: To complete the construct function.
+
+    Colour CheckColour(Direction _dir) {return papers[_dir].col;}
 };
 
 /*

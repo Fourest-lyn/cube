@@ -3,10 +3,11 @@ project(cube)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(cube main.cpp
-        Block.cpp
-        Block.h
-        Cube.cpp
-        Cube.h
-
+add_executable(cube
+        main.cpp
+        block.h
+        block.cpp
+        cube.h
+        cube.cpp
+        error.h
         )

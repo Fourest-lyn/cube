@@ -2,7 +2,7 @@
 // Created by Fourest on 2020/12/31.
 //
 
-#include "Cube.h"
+#include "cube.h"
 
 void Cube::R(bool dir=true)
 {
