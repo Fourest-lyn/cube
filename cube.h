@@ -5,16 +5,16 @@
 #ifndef CUBE_CUBE_H
 #define CUBE_CUBE_H
 
-#include "block.h"
+#include "Block.h"
 
-//enum direction{_x,_y,_z};
+//enum Direction{_x,_y,_z};
 
-class cube
+class Cube
 {
-    block *blo[3][3][3];
+    RotationBlock *cube[3][3][3];
 
 public:
-    cube()=default;
+    Cube()=default;
 
 //Operators.
     void cycle(std::string str);
@@ -24,7 +24,7 @@ public:
     void D(bool);
     void F(bool);
     void B(bool);
-    void M(bool,direction);
+    void M(bool, Direction);
 
     void r(bool);
     void l(bool);

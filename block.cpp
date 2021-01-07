@@ -2,11 +2,12 @@
 // Created by Fourest on 2020/12/31.
 //
 
-#include "block.h"
+#include "Block.h"
 
 //Corner blocks.
+/*
 
-corner::corner(int xx,int yy,int zz,std::initializer_list<colour> il):block(xx,yy,zz)
+Corner::Corner(int xx,int yy,int zz,std::initializer_list<Colour> il): Block(xx, yy, zz)
 {
     if(il.size()!=num) throw WrongKind();
     if(x!=-1 || x!=1 && y!=1 || y!=-1 && z!=1 || z!=-1) throw WrongPlace();
@@ -18,7 +19,7 @@ corner::corner(int xx,int yy,int zz,std::initializer_list<colour> il):block(xx,y
     }
 }
 
-bool corner::check()
+bool Corner::check()
 {
     if(col.size()!=num) throw WrongKind();
     if(x!=-1 || x!=1 && y!=1 || y!=-1 && z!=1 || z!=-1) throw WrongPlace();
@@ -27,7 +28,7 @@ bool corner::check()
 
 //Edge blocks.
 
-edge::edge(int xx,int yy,int zz,std::initializer_list<colour> il):block(xx,yy,zz)
+Edge::Edge(int xx,int yy,int zz,std::initializer_list<Colour> il): Block(xx, yy, zz)
 {
     if(il.size()!=num) throw WrongKind();
     if(!((x==0 && y!=0 && z!=0) || (x!=0 && y==0 && z!=0) || (x!=0 && y!=0 && z==0))) throw WrongPlace();
@@ -40,7 +41,7 @@ edge::edge(int xx,int yy,int zz,std::initializer_list<colour> il):block(xx,yy,zz
 
 }
 
-bool edge::check()
+bool Edge::check()
 {
     if(col.size()!=num) throw WrongKind();
     if(!((x==0 && y!=0 && z!=0) || (x!=0 && y==0 && z!=0) || (x!=0 && y!=0 && z==0))) throw WrongPlace();
@@ -49,7 +50,7 @@ bool edge::check()
 
 //Middle blocks.
 
-middle::middle(int xx,int yy,int zz,std::initializer_list<colour> il):block(xx,yy,zz)
+Middle::Middle(int xx,int yy,int zz,std::initializer_list<Colour> il): Block(xx, yy, zz)
 {
     if(il.size()!=num) throw WrongKind();
     if(!((x==0 && y==0 && z!=0) || (x!=0 && y==0 && z==0) || (x==0 && y!=0 && z==0))) throw WrongPlace();
@@ -62,10 +63,11 @@ middle::middle(int xx,int yy,int zz,std::initializer_list<colour> il):block(xx,y
 
 }
 
-bool middle::check()
+bool Middle::check()
 {
     if(col.size()!=num) throw WrongKind();
     if(!((x==0 && y==0 && z!=0) || (x!=0 && y==0 && z==0) || (x==0 && y!=0 && z==0))) throw WrongPlace();
     return true;
 }
 
+*/
