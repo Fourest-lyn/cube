@@ -16,14 +16,14 @@ class Error
 
 public:
 
-    Error(std::string _message)
+    explicit Error(std::string _message)
     {
         if(_message=="WrongPosition") message=WrongPosition;
         else if(_message=="WrongColour") message=WrongColour;
         else if(_message=="WrongKind") message=WrongKind;
         else other_message=_message;
     }
-    Error(Message _message):message(_message){}
+    explicit Error(Message _message):message(_message){}
 
 
     bool ErrorIsDefined() {return message!=Empty;}

@@ -14,6 +14,8 @@
 #include <cassert>
 #include <map>
 #include "error.h"
+#include <initializer_list>
+#include <iostream>
 
 //Fourest: Declare classes here.
 class Matrix;
@@ -33,6 +35,8 @@ private:
 public:
     BaseType(int x=0,int y=0,int z=0):x(x),y(y),z(z){}
 
+    bool operator ==(BaseType &base) {return x==base.x && y==base.y && z==base.z;}
+    bool operator !=(BaseType &base) {return !((*this)==base);}
 };
 
 
@@ -42,55 +46,36 @@ typedef BaseType Direction;
 
 //only has 7 different possible value, include no colour:
 //(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1) (0,0,0)
+//orange  red      white   yellow   green   blue     black
 typedef BaseType Colour;
+//enum  _colour {orange,red,white,yellow,green,blue,black};
 
 
-//Fourest: This class is used for define a rotation matrix.
+//Fourest: This class is used for define a rotation Matrix.
 class Matrix
 {
 
 private:
-    int a[3][3];
+    enum AXIS {_x=0,_y=1,_z=2};
+    int a[3][3]={0};
     int Layer;//-1,0,1 Question: when should "Layer" be used? It decides whether to rotate a block.
 
 public:
-    Matrix(Direction,int);
+    Matrix(const Direction &,const int &);
+
+    BaseType operator *(const BaseType &);
+    Paper operator *(const Paper &);
+    Block operator *(const Block &);
 
 };
 
-/*
-class BaseBlock
-{
-public:
-    BaseBlock(const BaseType &blockDirection):block_direction(blockDirection){};
-
-    BaseBlock(int x=0,int y=0,int z=0):block_direction(x,y,z){};
-
-    friend BaseBlock operator*(const Matrix &matrix,const BaseBlock &baseBlock)
-    {
-
-    };
-
-    friend BaseBlock operator*(const BaseBlock &baseBlock,const Matrix &matrix)
-    {
-        return matrix*baseBlock;
-    };
-private:
-    BaseType block_position;
-
-};
-*/
-
-/*enum Colour {
-    orange = 0, white = 1, blue = 2, green = 3, yellow = 4, red = 5
-};*/
 
 
 //This class is defined to describe a coloured Paper.
 class Paper
 {
     friend Block;
-    friend Paper operator*(const Paper &,const Matrix &);
+    friend Matrix;
 
 private:
     const Colour col;
@@ -100,23 +85,28 @@ public:
     Paper(Direction _dir,Colour _col=Colour(0,0,0)):dir(_dir),col(_col){}
     Colour colour(){return col;}
     Direction direction(){return dir;}
+
+
 };
 
+enum BlockKind {Corner=3,Edge=2,Middle=1,Inside=0};
 
 //This class is defined to describe a real block that has 6 paper and can translate and rotate.
 class Block
 {
-    friend Block operator*(const Matrix &,const Block &);
-    friend Block operator*(const Block &,const Matrix &);
+    friend Matrix;
 
 private:
     BaseType position;
     std::map<Direction,Paper> papers;
+    BlockKind kind=Inside;
 
 public:
-    Block(BaseType _pos){}//todo: To complete the construct function.
-
+    //todo: To complete the construct function.
+    Block(const BaseType &,std::initializer_list<Paper>);
     Colour CheckColour(Direction _dir) {return papers[_dir].col;}
+
+
 };
 
 /*

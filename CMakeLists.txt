@@ -5,9 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(cube
         main.cpp
-        block.h
-        block.cpp
-        cube.h
-        cube.cpp
+        block.h block.cpp
+        cube.h cube.cpp
         error.h
         )
