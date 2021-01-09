@@ -28,6 +28,7 @@ class Block;
 class BaseType
 {
     friend Matrix;
+//    friend std::istream &operator>>(std::istream &,BaseType &);
 
 private:
     int x,y,z;
@@ -37,6 +38,7 @@ public:
 
     bool operator ==(BaseType &base) {return x==base.x && y==base.y && z==base.z;}
     bool operator !=(BaseType &base) {return !((*this)==base);}
+    int ToInteger() {return x*1+y*3+z*9;}
 };
 
 
@@ -44,11 +46,17 @@ public:
 //(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1)
 typedef BaseType Direction;
 
+
 //only has 7 different possible value, include no colour:
 //(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1) (0,0,0)
 //orange  red      white   yellow   green   blue     black
 typedef BaseType Colour;
-//enum  _colour {orange,red,white,yellow,green,blue,black};
+const Colour orange(1,0,0),red(-1,0,0);
+const Colour white(0,1,0),yellow(0,-1,0);
+const Colour blue(0,0,1),green(0,0,-1);
+const Colour black(0,0,0);
+enum ColourNumber {ORANGE=1,RED=6,WHITE=2,YELLOW=5,BLUE=3,GREEN=4,BLACK=0};
+
 
 
 //Fourest: This class is used for define a rotation Matrix.
@@ -66,7 +74,6 @@ public:
     BaseType operator *(const BaseType &);
     Paper operator *(const Paper &);
     Block operator *(const Block &);
-
 };
 
 
@@ -76,6 +83,7 @@ class Paper
 {
     friend Block;
     friend Matrix;
+//    friend std::istream &operator >>(std::istream &,Paper &);
 
 private:
     const Colour col;
@@ -85,8 +93,6 @@ public:
     Paper(Direction _dir,Colour _col=Colour(0,0,0)):dir(_dir),col(_col){}
     Colour colour(){return col;}
     Direction direction(){return dir;}
-
-
 };
 
 enum BlockKind {Corner=3,Edge=2,Middle=1,Inside=0};
@@ -95,6 +101,7 @@ enum BlockKind {Corner=3,Edge=2,Middle=1,Inside=0};
 class Block
 {
     friend Matrix;
+//    friend std::istream &operator >>(std::istream &,Block &);
 
 private:
     BaseType position;
@@ -109,56 +116,5 @@ public:
 
 };
 
-/*
-class Block {
-protected:
-    int x, y, z;
-
-
-public:
-    Block(int xx, int yy, int zz) : x(xx), y(yy), z(zz) {}
-
-    virtual bool check() = 0;
-
-    virtual ~Block() = default;
-
-    virtual void TurnDirection() = 0;
-};
-
-
-
-class Corner : public Block {
-    std::unordered_set<Colour> col;
-    const static int num = 3;
-
-public:
-    Corner(int xx, int yy, int zz, std::initializer_list<Colour> il);
-
-    virtual bool check() override;
-
-};
-
-
-class Edge : public Block {
-    std::unordered_set<Colour> col;
-    const static int num = 2;
-
-public:
-    Edge(int xx, int yy, int zz, std::initializer_list<Colour> il);
-
-    virtual bool check() override;
-};
-
-
-class Middle : public Block {
-    std::unordered_set<Colour> col;
-    const static int num = 1;
-
-public:
-    Middle(int xx, int yy, int zz, std::initializer_list<Colour> il);
-
-    virtual bool check() override;
-};
-*/
 
 #endif //CUBE_BLOCK_H

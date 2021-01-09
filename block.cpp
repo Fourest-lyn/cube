@@ -4,74 +4,6 @@
 
 #include "block.h"
 
-//Corner blocks.
-/*
-
-Corner::Corner(int xx,int yy,int zz,std::initializer_list<Colour> il): Block(xx, yy, zz)
-{
-    if(il.size()!=num) throw WrongKind();
-    if(x!=-1 || x!=1 && y!=1 || y!=-1 && z!=1 || z!=-1) throw WrongPlace();
-    auto it=il.begin();
-    while(it!=il.end())
-    {
-        if(col.find(*it)==col.end()) throw WrongColour();
-        col.insert(*it);
-    }
-}
-
-bool Corner::check()
-{
-    if(col.size()!=num) throw WrongKind();
-    if(x!=-1 || x!=1 && y!=1 || y!=-1 && z!=1 || z!=-1) throw WrongPlace();
-    return true;
-}
-
-//Edge blocks.
-
-Edge::Edge(int xx,int yy,int zz,std::initializer_list<Colour> il): Block(xx, yy, zz)
-{
-    if(il.size()!=num) throw WrongKind();
-    if(!((x==0 && y!=0 && z!=0) || (x!=0 && y==0 && z!=0) || (x!=0 && y!=0 && z==0))) throw WrongPlace();
-    auto it=il.begin();
-    while(it!=il.end())
-    {
-        if(col.find(*it)==col.end()) throw WrongColour();
-        col.insert(*it);
-    }
-
-}
-
-bool Edge::check()
-{
-    if(col.size()!=num) throw WrongKind();
-    if(!((x==0 && y!=0 && z!=0) || (x!=0 && y==0 && z!=0) || (x!=0 && y!=0 && z==0))) throw WrongPlace();
-    return true;
-}
-
-//Middle blocks.
-
-Middle::Middle(int xx,int yy,int zz,std::initializer_list<Colour> il): Block(xx, yy, zz)
-{
-    if(il.size()!=num) throw WrongKind();
-    if(!((x==0 && y==0 && z!=0) || (x!=0 && y==0 && z==0) || (x==0 && y!=0 && z==0))) throw WrongPlace();
-    auto it=il.begin();
-    while(it!=il.end())
-    {
-        if(col.find(*it)==col.end()) throw WrongColour();
-        col.insert(*it);
-    }
-
-}
-
-bool Middle::check()
-{
-    if(col.size()!=num) throw WrongKind();
-    if(!((x==0 && y==0 && z!=0) || (x!=0 && y==0 && z==0) || (x==0 && y!=0 && z==0))) throw WrongPlace();
-    return true;
-}
-
-*/
-
 Matrix::Matrix(const Direction & _dir,const int & _layer):Layer(_layer)
 {
     if(_dir.x!=0)
@@ -133,7 +65,7 @@ Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_po
     auto it=il.begin();
     while(it!=il.end())
     {
-        if(it->col!=standard) ++num;//fixme: This position is wrong?
+        if(it->col) ++num;//fixme: Are the codes here wrong?
         papers.insert({it->dir,*it});
         ++it;
     }
@@ -141,12 +73,24 @@ Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_po
     kind=BlockKind(num);
 }
 
+//std::istream &operator>>(std::istream &is,BaseType &_base)
+//{
+//    is>>_base.x>>_base.y>>_base.z;
+//    return is;
+//}
 
 
+//std::istream &operator>>(std::istream &is,Paper &_paper)
+//{
+//    is>>_paper.dir;
+//
+//    return is;
+//}
 
-
-
-
+//std::istream &operator>>(std::istream &is,Block &_block)
+//{
+//    return is;
+//}
 
 
 
