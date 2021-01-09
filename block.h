@@ -24,12 +24,15 @@ class Paper;
 class Block;
 extern class Cube;
 
+namespace Private
+{
+
+}
 
 
 class BaseType
 {
     friend Matrix;
-//    friend std::istream &operator>>(std::istream &,BaseType &);
 
 private:
     int x=0,y=0,z=0;
@@ -39,16 +42,27 @@ public:
     BaseType(int);
     BaseType(int,int,int);
 
-    int ToInteger() const {return x*1+y*3+z*9;}
+    bool operator< (const BaseType &) const;
+    int toInteger() const {return x*1+y*3+z*9;}
 };
 
 
-//only has 6 different possible value:
-//(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1)
+//This type could describe a block's position in a MagicCube.
+//Elements in this type can only be -1 or 0 or 1.
+typedef BaseType Position;
+
+
+/*
+ * This type describe a paper's direction by declare the position of the block
+ * that in the middle of the surface it belongs.
+ * This type only has 6 different possible value.
+ * (1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1)
+ */
 typedef BaseType Direction;
 
 
-//only has 7 different possible value, include no colour:
+//This type describe the colours that a paper can have.
+//This type only has 7 different possible value, include NoColour(=Black).
 typedef BaseType Colour;
 const Colour orange(1,0,0),red(-1,0,0);
 const Colour white(0,1,0),yellow(0,-1,0);
@@ -58,7 +72,7 @@ enum ColourNumber {ORANGE=1,RED=-1,WHITE=3,YELLOW=-3,BLUE=9,GREEN=-9,BLACK=0};
 
 
 
-//Fourest: This class is used for define a rotation Matrix.
+//This class is used for define a rotation Matrix.
 class Matrix
 {
     friend Cube;
@@ -67,20 +81,20 @@ private:
     enum AXIS {_x=0,_y=1,_z=2};
     int a[3][3]={0};
 
-    //Fourest: The "Layer" decides which layer of the cube is processed by the "Matrix".
+    //The "Layer" decides which layer of the cube is processed by the "Matrix".
     int Layer;
 
 public:
     Matrix(const Direction &,const int &);
 
-    BaseType operator *(const BaseType &);
-    Paper operator *(const Paper &);
-    Block operator *(const Block &);
+    BaseType operator *(const BaseType &) const;
+    Paper operator *(const Paper &) const;
+    Block operator *(const Block &) const;
 };
 
 
 
-//Fourest: This class is defined to describe a coloured Paper that paste on one surface of a block.
+//This class is defined to describe a coloured Paper that paste on one surface of a block.
 class Paper
 {
     friend Block;
@@ -96,6 +110,7 @@ public:
     Direction direction() const {return dir;}
 };
 
+//This enum describe how many papers can the block have.
 enum BlockKind {Corner=3,Edge=2,Middle=1,Inside=0};
 
 //This class is defined to describe a real block that has 6 papers.
@@ -104,13 +119,14 @@ class Block
     friend Matrix;
 
 private:
-    BaseType position;
+    Position position;
     std::map<Direction,Paper> papers;
     BlockKind kind=Inside;
 
 public:
-    Block(const BaseType &,std::initializer_list<Paper>);
+    Block(const Position &,std::initializer_list<Paper>);
     Colour CheckColour(const Direction &_dir) {return papers[_dir].col;}
+    bool operator <(const Block &) const;
 };
 
 

@@ -24,7 +24,7 @@ Matrix::Matrix(const Direction & _dir,const int & _layer):Layer(_layer)
     }
 }
 
-BaseType Matrix::operator*(const BaseType & _base)
+BaseType Matrix::operator*(const BaseType & _base) const
 {
     BaseType temp;
     temp.x=a[_x][_x]*_base.x+a[_x][_y]*_base.y+a[_x][_z]*_base.z;
@@ -33,14 +33,14 @@ BaseType Matrix::operator*(const BaseType & _base)
     return temp;
 }
 
-Paper Matrix::operator*(const Paper &_paper)
+Paper Matrix::operator*(const Paper &_paper) const
 {
     Paper temp(_paper);
     temp.dir=(*this)*temp.dir;
     return temp;
 }
 
-Block Matrix::operator*(const Block &_block)
+Block Matrix::operator*(const Block &_block) const
 {
     Block temp(_block);
 
@@ -58,7 +58,7 @@ Block Matrix::operator*(const Block &_block)
 }
 
 
-Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_pos)
+Block::Block(const Position & _pos,std::initializer_list<Paper> il):position(_pos)
 {
     int num=0;
     Colour standard(0,0,0);
@@ -66,7 +66,7 @@ Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_po
     auto it=il.begin();
     while(it!=il.end())
     {
-        if(it->col.ToInteger()!=0) ++num;
+        if(it->col.toInteger()!=0) ++num;
         papers.insert({it->dir,*it});
         ++it;
     }
@@ -74,6 +74,10 @@ Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_po
     kind=BlockKind(num);
 }
 
+bool Block::operator<(const Block &_block) const
+{
+    return position<_block.position;
+}
 
 
 BaseType::BaseType(int _x,int _y,int _z):x(_x),y(_y),z(_z)
@@ -90,6 +94,12 @@ BaseType::BaseType(int _base)
     y=_base%3-1;
     _base/=3;
     z=_base-1;
+}
+
+bool BaseType::operator<(const BaseType &_base) const
+{
+    return toInteger()<_base.toInteger();
+    return false;
 }
 
 
