@@ -1,3 +1,4 @@
+
 //
 // Created by Fourest on 2020/12/31.
 //
@@ -66,7 +67,7 @@ Block::Block(const Position & _pos,std::initializer_list<Paper> il):position(_po
     auto it=il.begin();
     while(it!=il.end())
     {
-        if(it->col.toInteger()!=0) ++num;
+        if(int(it->col)!=0) ++num;
         papers.insert({it->dir,*it});
         ++it;
     }
@@ -98,30 +99,8 @@ BaseType::BaseType(int _base)
 
 bool BaseType::operator<(const BaseType &_base) const
 {
-    return toInteger()<_base.toInteger();
+    return int(*this)<int(_base);
     return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

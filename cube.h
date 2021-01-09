@@ -9,23 +9,31 @@
 
 //enum Direction{_x,_y,_z};
 
+using std::string;
+
 class Cube
 {
-    Block *cube[3][3][3];
 
+    Block cube[3][3][3];//represents x y z
+    bool validRotate(char);
+    Cube& operator*=(const Matrix&);
 public:
     Cube()=default;
+    Cube(const string&);
 
 //Operators.
-    void cycle(std::string str);
+    void multiRotate(const string&);
     void R(bool);
     void L(bool);
     void U(bool);
     void D(bool);
     void F(bool);
     void B(bool);
-    void M(bool, Direction);
-
+    void E(bool);
+    void M(bool);
+    void S(bool);
+    //void M(bool, Direction);
+/*
     void r(bool);
     void l(bool);
     void u(bool);
@@ -35,10 +43,11 @@ public:
 
     void x(bool);
     void y(bool);
-    void z(bool);
+    void z(bool);*/
 
+//    void turn(int,int,int,bool);
 
-    void turn(int,int,int,bool);
+    ~Cube();
 
 };
 

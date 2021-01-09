@@ -1,3 +1,4 @@
+
 //
 // Created by Fourest on 2021/1/7.
 //
@@ -7,7 +8,7 @@
 
 #include <string>
 
-enum Message{WrongPosition,WrongColour,WrongKind,Empty,WrongConstruct};
+enum Message{WrongPosition,WrongColour,WrongKind,Empty,WrongConstruct,WrongString};
 
 class Error
 {
@@ -22,6 +23,7 @@ public:
         else if(_message=="WrongColour") message=WrongColour;
         else if(_message=="WrongKind") message=WrongKind;
         else if(_message=="WrongConstruct") message=WrongConstruct;
+        else if(_message=="WrongString") message=WrongString;
         else other_message=_message;
     }
     explicit Error(Message _message):message(_message){}

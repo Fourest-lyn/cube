@@ -43,7 +43,8 @@ public:
     BaseType(int,int,int);
 
     bool operator< (const BaseType &) const;
-    int toInteger() const {return x*1+y*3+z*9;}
+    //int toInteger() const {return x*9+y*3+z*1;}
+    operator int() const {return x*9+y*3+z*1;}
 };
 
 
