@@ -38,7 +38,7 @@ public:
 
     bool operator ==(BaseType &base) {return x==base.x && y==base.y && z==base.z;}
     bool operator !=(BaseType &base) {return !((*this)==base);}
-    int ToInteger() {return x*1+y*3+z*9;}
+    int ToInteger() const {return x*1+y*3+z*9;}
 };
 
 

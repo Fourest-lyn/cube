@@ -65,7 +65,7 @@ Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_po
     auto it=il.begin();
     while(it!=il.end())
     {
-        if(it->col) ++num;//fixme: Are the codes here wrong?
+        if(it->col.ToInteger()!=0) ++num;//fixme: Are the codes here wrong?
         papers.insert({it->dir,*it});
         ++it;
     }
