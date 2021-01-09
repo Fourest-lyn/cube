@@ -22,6 +22,7 @@ class Matrix;
 class BaseType;
 class Paper;
 class Block;
+extern class Cube;
 
 
 
@@ -31,13 +32,13 @@ class BaseType
 //    friend std::istream &operator>>(std::istream &,BaseType &);
 
 private:
-    int x,y,z;
+    int x=0,y=0,z=0;
 
 public:
-    BaseType(int x=0,int y=0,int z=0):x(x),y(y),z(z){}
+    BaseType()=default;
+    BaseType(int);
+    BaseType(int,int,int);
 
-    bool operator ==(BaseType &base) {return x==base.x && y==base.y && z==base.z;}
-    bool operator !=(BaseType &base) {return !((*this)==base);}
     int ToInteger() const {return x*1+y*3+z*9;}
 };
 
@@ -48,25 +49,26 @@ typedef BaseType Direction;
 
 
 //only has 7 different possible value, include no colour:
-//(1,0,0) (-1,0,0) (0,1,0) (0,-1,0) (0,0,1) (0,0,-1) (0,0,0)
-//orange  red      white   yellow   green   blue     black
 typedef BaseType Colour;
 const Colour orange(1,0,0),red(-1,0,0);
 const Colour white(0,1,0),yellow(0,-1,0);
 const Colour blue(0,0,1),green(0,0,-1);
 const Colour black(0,0,0);
-enum ColourNumber {ORANGE=1,RED=6,WHITE=2,YELLOW=5,BLUE=3,GREEN=4,BLACK=0};
+enum ColourNumber {ORANGE=1,RED=-1,WHITE=3,YELLOW=-3,BLUE=9,GREEN=-9,BLACK=0};
 
 
 
 //Fourest: This class is used for define a rotation Matrix.
 class Matrix
 {
+    friend Cube;
 
 private:
     enum AXIS {_x=0,_y=1,_z=2};
     int a[3][3]={0};
-    int Layer;//-1,0,1 Question: when should "Layer" be used? It decides whether to rotate a block.
+
+    //Fourest: The "Layer" decides which layer of the cube is processed by the "Matrix".
+    int Layer;
 
 public:
     Matrix(const Direction &,const int &);
@@ -78,30 +80,28 @@ public:
 
 
 
-//This class is defined to describe a coloured Paper.
+//Fourest: This class is defined to describe a coloured Paper that paste on one surface of a block.
 class Paper
 {
     friend Block;
     friend Matrix;
-//    friend std::istream &operator >>(std::istream &,Paper &);
 
 private:
     const Colour col;
     Direction dir;
 
 public:
-    Paper(Direction _dir,Colour _col=Colour(0,0,0)):dir(_dir),col(_col){}
-    Colour colour(){return col;}
-    Direction direction(){return dir;}
+    Paper(Direction _dir,Colour _col=Colour()):dir(_dir),col(_col){}
+    Colour colour() const {return col;}
+    Direction direction() const {return dir;}
 };
 
 enum BlockKind {Corner=3,Edge=2,Middle=1,Inside=0};
 
-//This class is defined to describe a real block that has 6 paper and can translate and rotate.
+//This class is defined to describe a real block that has 6 papers.
 class Block
 {
     friend Matrix;
-//    friend std::istream &operator >>(std::istream &,Block &);
 
 private:
     BaseType position;
@@ -109,11 +109,8 @@ private:
     BlockKind kind=Inside;
 
 public:
-    //todo: To complete the construct function.
     Block(const BaseType &,std::initializer_list<Paper>);
-    Colour CheckColour(Direction _dir) {return papers[_dir].col;}
-
-
+    Colour CheckColour(const Direction &_dir) {return papers[_dir].col;}
 };
 
 

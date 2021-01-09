@@ -6,6 +6,7 @@
 
 Matrix::Matrix(const Direction & _dir,const int & _layer):Layer(_layer)
 {
+    if(_layer>1 || _layer<-1) throw Error(WrongConstruct);
     if(_dir.x!=0)
     {
         a[_x][_x]=1;
@@ -61,36 +62,46 @@ Block::Block(const BaseType & _pos,std::initializer_list<Paper> il):position(_po
 {
     int num=0;
     Colour standard(0,0,0);
-    if(il.size()>6) throw Error(WrongKind);
+    if(il.size()>6) throw Error(WrongConstruct);
     auto it=il.begin();
     while(it!=il.end())
     {
-        if(it->col.ToInteger()!=0) ++num;//fixme: Are the codes here wrong?
+        if(it->col.ToInteger()!=0) ++num;
         papers.insert({it->dir,*it});
         ++it;
     }
-    if(num>3) throw Error(WrongKind);
+    if(num>3) throw Error(WrongConstruct);
     kind=BlockKind(num);
 }
 
-//std::istream &operator>>(std::istream &is,BaseType &_base)
-//{
-//    is>>_base.x>>_base.y>>_base.z;
-//    return is;
-//}
 
 
-//std::istream &operator>>(std::istream &is,Paper &_paper)
-//{
-//    is>>_paper.dir;
-//
-//    return is;
-//}
+BaseType::BaseType(int _x,int _y,int _z):x(_x),y(_y),z(_z)
+{
+    if(x>1 || x<-1 || y>1 || y<-1 || z>1 || z<-1) throw Error(WrongConstruct);
+}
 
-//std::istream &operator>>(std::istream &is,Block &_block)
-//{
-//    return is;
-//}
+BaseType::BaseType(int _base)
+{
+    if(_base>13 || _base<-13) throw Error(WrongConstruct);
+    _base+=13;
+    x=_base%3-1;
+    _base/=3;
+    y=_base%3-1;
+    _base/=3;
+    z=_base-1;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

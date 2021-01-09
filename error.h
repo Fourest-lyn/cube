@@ -7,7 +7,7 @@
 
 #include <string>
 
-enum Message{WrongPosition,WrongColour,WrongKind,Empty};
+enum Message{WrongPosition,WrongColour,WrongKind,Empty,WrongConstruct};
 
 class Error
 {
@@ -21,6 +21,7 @@ public:
         if(_message=="WrongPosition") message=WrongPosition;
         else if(_message=="WrongColour") message=WrongColour;
         else if(_message=="WrongKind") message=WrongKind;
+        else if(_message=="WrongConstruct") message=WrongConstruct;
         else other_message=_message;
     }
     explicit Error(Message _message):message(_message){}
