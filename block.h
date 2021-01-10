@@ -22,7 +22,6 @@ class Matrix;
 class BaseType;
 class Paper;
 class Block;
-extern class Cube;
 
 namespace Private
 {
@@ -38,12 +37,11 @@ private:
     int x=0,y=0,z=0;
 
 public:
-    BaseType()=default;
+    BaseType() =default;
     BaseType(int);
     BaseType(int,int,int);
 
     bool operator< (const BaseType &) const;
-    //int toInteger() const {return x*9+y*3+z*1;}
     operator int() const {return x*9+y*3+z*1;}
 };
 
@@ -69,25 +67,27 @@ const Colour orange(1,0,0),red(-1,0,0);
 const Colour white(0,1,0),yellow(0,-1,0);
 const Colour blue(0,0,1),green(0,0,-1);
 const Colour black(0,0,0);
-enum ColourNumber {ORANGE=1,RED=-1,WHITE=3,YELLOW=-3,BLUE=9,GREEN=-9,BLACK=0};
+enum ColourNumber {ORANGE=9,RED=-9,WHITE=3,YELLOW=-3,BLUE=1,GREEN=-1,BLACK=0};
 
 
 
 //This class is used for define a rotation Matrix.
 class Matrix
 {
-    friend Cube;
 
 private:
     enum AXIS {_x=0,_y=1,_z=2};
     int a[3][3]={0};
 
     //The "Layer" decides which layer of the cube is processed by the "Matrix".
-    int Layer;
+    int Layer=0;
+    AXIS direction;
 
 public:
     Matrix(const Direction &,const int &);
 
+    int direct() const{return direction;}
+    int layer() const{return Layer;}
     BaseType operator *(const BaseType &) const;
     Paper operator *(const Paper &) const;
     Block operator *(const Block &) const;
@@ -126,6 +126,8 @@ private:
 
 public:
     Block(const Position &,std::initializer_list<Paper>);
+    Block(const Block &){}
+
     Colour CheckColour(const Direction &_dir) {return papers[_dir].col;}
     bool operator <(const Block &) const;
 };

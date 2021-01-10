@@ -12,16 +12,19 @@ Matrix::Matrix(const Direction & _dir,const int & _layer):Layer(_layer)
     {
         a[_x][_x]=1;
         a[_y][_z]=-_dir.x; a[_z][_y]=_dir.x;
+        direction=_x;
     }
     if(_dir.y!=0)
     {
         a[_y][_y]=1;
         a[_z][_x]=-_dir.y; a[_x][_z]=_dir.y;
+        direction=_y;
     }
     if(_dir.z!=0)
     {
         a[_z][_z]=1;
         a[_x][_y]=-_dir.z; a[_y][_x]=_dir.z;
+        direction=_z;
     }
 }
 

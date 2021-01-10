@@ -14,12 +14,17 @@ using std::string;
 class Cube
 {
 
-    Block cube[3][3][3];//represents x y z
+private:
+    std::map<Position,Block> blocks;
+
     bool validRotate(char);
     Cube& operator*=(const Matrix&);
+
+
 public:
-    Cube()=default;
-    Cube(const string&);
+    Cube() =default;
+    Cube(const string &);
+    Cube operator*(const Matrix &);
 
 //Operators.
     void multiRotate(const string&);
