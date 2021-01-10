@@ -248,9 +248,32 @@ Cube Cube::operator*(const Matrix &_mat)
     return temp;
 }
 
-Cube::Cube(const string &)
+Cube::Cube(const string & str)
 {
-
+    /*auto intChanger = [](int x)->int{
+        if (x<0 || x>6) throw Error(WrongString);
+        switch (x){
+        case 0:
+            return int(BaseType(0,0,0));
+        case 1:
+            return int(BaseType())
+        }
+    };*/
+    //enum ColourNumber {ORANGE=9,RED=-9,WHITE=3,YELLOW=-3,BLUE=1,GREEN=-1,BLACK=0};
+    const int BTNum[7] = {0,9,-9,3,-3,1,-1};//Be careful:black is 0!
+    if (str.size() >= 27*7-1) throw Error(WrongString);//I'm mercy.You can end with anything.I don't care.You can also use " " to cut string.
+    for (int iblock = 0; iblock < 27; ++iblock) {
+        int list[7];
+        for (int jpaper = 0; jpaper <= 5; ++jpaper) {
+            int charnum = str[iblock * 7 + jpaper] - '0';
+            if (charnum < 0 || charnum > 6) throw Error(WrongString);
+            list[jpaper] = BTNum[charnum];
+        }
+        blocks[iblock] = Block(iblock - 13,
+                               {Paper(BTNum[1], list[0]), Paper(BTNum[2], list[1]), Paper(BTNum[3], list[2]),
+                                Paper(BTNum[4], list[3]), Paper(BTNum[5], list[4]),
+                                Paper(BTNum[6], list[5])});
+    }
 }
 
 
