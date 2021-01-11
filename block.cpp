@@ -62,13 +62,12 @@ Block Matrix::operator*(const Block &_block) const
 }
 
 
-Block::Block(const Position & _pos,std::initializer_list<Paper> il):position(_pos)
+Block::Block(const Position & _pos,const std::vector<Paper> &vt):position(_pos)
 {
     int num=0;
-    Colour standard(0,0,0);
-    if(il.size()>6) throw Error(WrongConstruct);
-    auto it=il.begin();
-    while(it!=il.end())
+    if(vt.size()!=6) throw Error(WrongConstruct);
+    auto it=vt.begin();
+    while(it!=vt.end())
     {
         if(int(it->col)!=0) ++num;
         papers.insert({it->dir,*it});
@@ -107,3 +106,4 @@ bool BaseType::operator<(const BaseType &_base) const
 }
 
 
+Paper::Paper(const Direction &_dir,const Colour &_col=Colour()):dir(_dir),col(_col){}

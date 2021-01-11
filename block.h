@@ -14,8 +14,9 @@
 #include <cassert>
 #include <map>
 #include "error.h"
-#include <initializer_list>
+//#include <initializer_list>
 #include <iostream>
+#include <vector>
 
 //Fourest: Declare classes here.
 class Matrix;
@@ -106,7 +107,7 @@ private:
     Direction dir;
 
 public:
-    Paper(Direction _dir,Colour _col=Colour()):dir(_dir),col(_col){}
+    Paper(const Direction &,const Colour &);
     Colour colour() const {return col;}
     Direction direction() const {return dir;}
 };
@@ -125,7 +126,7 @@ private:
     BlockKind kind=Inside;
 
 public:
-    Block(const Position &,std::initializer_list<Paper>);
+    Block(const Position &,const std::vector<Paper> &);
     Block(const Block &){}
 
     Colour CheckColour(const Direction &_dir) {return papers[_dir].col;}
