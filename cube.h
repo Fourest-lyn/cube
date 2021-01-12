@@ -10,6 +10,7 @@
 //enum Direction{_x,_y,_z};
 
 using std::string;
+using std::map;
 
 class Cube
 {
@@ -34,6 +35,7 @@ private:
 public:
     Cube() =default;
     Cube(const string &);
+    operator string()const;
     ~Cube(){}
 
     void multiRotate(const string&);

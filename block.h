@@ -129,7 +129,7 @@ public:
     Block(const Position &,const std::vector<Paper> &);
     Block(const Block &){}
 
-    Colour CheckColour(const Direction &_dir) {return papers[_dir].col;}
+    Colour CheckColour(const Direction &_dir) const {return papers.at(_dir).col;}
     bool operator <(const Block &) const;
 };
 

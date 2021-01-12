@@ -162,6 +162,24 @@ Cube::Cube(const string &str)
     }
 }
 
+Cube::operator string()const{
+    const int BTNum[7]={0,9,-9,3,-3,1,-1};//Be careful:black is 0!
+    const map<int,string> BTMap = {{0,"0"},{9,"1"},{-9,"2"},{3,"3"},{-3,"4"},{1,"5"},{-1,"6"}};
+    string str;
+    for(int iBlock=0; iBlock<27; ++iBlock)
+    {
+        for(int jPaper=0; jPaper<=5; ++jPaper)
+        {
+            try{
+                str += BTMap.at(blocks.at(Position(iBlock)).CheckColour(BTNum[jPaper + 1]));
+            } catch(std::out_of_range){
+                throw Error("WrongConstruct");
+            }
+        }
+        str += ' ';
+    }
+}
+
 void Cube::display()
 {
     //todo: To complete this function. The function is used for showing the present
